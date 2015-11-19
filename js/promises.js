@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
   /*
   In this challenge, you'll learn how to use promises to make independent requests as well as how to make dependendent requests
 
@@ -11,7 +12,25 @@ $(document).ready(function() {
     - Use http://openweathermap.org/current
     - The API is really straightforward, but you'll have to pass an additional parameter to getJSON in order to get it working!
       - Take a look at jQuery's getJSON() API to see what that extra parameter is! http://api.jquery.com/jquery.getjson/
-  
+  */
+  $("#fetch-weather").bind('click', weather);
+ 
+  function weather() {
+    var city;
+    var region;
+    var key = "bd82977b86bf27fb59a04b61b657fb6f";
+    $.getJSON("http://www.ip-api.com/json/?callback=?", function(data) {
+      city = data.city;
+      region = data.region;
+    });
+
+    $.getJSON("http://api.openweathermap.org/data/2.5/weather?q="+city+","+region+"&units=imperial&appid="+key, function(data) {
+      $("#currentWeather").text(data.main.temp +" degrees Fahrenheit, " + data.weather[0].main);
+      console.log(data.main.temp);
+    });
+  }
+
+  /*
   Part 2: Show the difference between parallel and serial promises
 
   - Below I've implemented a couple of promises that just use timeouts, and return numbers
